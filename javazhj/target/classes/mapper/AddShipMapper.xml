@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhj.mapper.AddShipMapper">
+
+    <resultMap id="resultMap" type="com.zhj.entity.AddShip">
+        <id property="id" column="id"/>
+        <id property="receiveId" column="receive_Id"/>
+        <id property="sendNickName" column="nick_name"/>
+        <id property="msg" column="msg"/>
+        <id property="relationShip" column="relation_ship"/>
+        <id property="addStatus" column="add_status"/>
+        <id property="sendPhoto" column="photo"/>
+
+    </resultMap>
+
+    <select id="getShipRequest" parameterType="String" resultMap="resultMap">
+      select * from (select * from add_ship where receive_id = #{userCount} and add_status = '1') a left join (select user_count,nick_name
+       nick_name,photo photo from user_count) b on a.send_id = b.user_count
+    </select>
+
+</mapper>

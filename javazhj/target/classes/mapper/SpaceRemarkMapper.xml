@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhj.mapper.SpaceRemarkMapper">
+    <resultMap id="resultMap" type="com.zhj.entity.SpaceRemark">
+        <id property="id" column="id"/>
+        <id property="receiveId" column="receive_Id"/>
+        <id property="sendNickName" column="send_nick_name"/>
+        <id property="msg" column="msg"/>
+        <id property="talkId" column="talk_id"/>
+        <id property="sendId" column="send_id"/>
+        <id property="receiveNickName" column="receive_nick_name"/>
+        <id property="createTime" column="create_time"/>
+        <id property="sendPhoto" column="send_photo"/>
+        <id property="receivePhoto" column="receive_photo"/>
+
+    </resultMap>
+    <select id="getSendRemark" parameterType="Integer" resultMap="resultMap">
+        select * from(select id,talk_id,send_id,receive_id,msg,last_id,create_time from space_remark where talk_id = #{talkId}
+           <if test="lastId != null and lastId != ''">
+               and last_id = '0'
+           </if>
+           ) a left join (select nick_name send_nick_name,photo send_photo,user_count from user_count) b on a.send_id = b.user_count
+    </select>
+
+    <select id="getRemarkById" parameterType="Integer" resultMap="resultMap">
+        select * from(select id,talk_id,send_id,receive_id,msg,create_time,height from space_remark where  parent_id = #{id}) a
+        left join (select nick_name send_nick_name,photo send_photo,user_count from user_count) b on a.send_id = b.user_count
+        left join (select nick_name receive_nick_name,photo receive_photo,user_count from user_count) c on a.receive_id = c.user_count
+    </select>
+    <select id="getReplayOfRemark" parameterType="Integer" resultMap="resultMap">
+        select id,talk_id,send_id,receive_id,msg,create_time,height from space_remark where  parent_id = #{id}
+    </select>
+
+</mapper>

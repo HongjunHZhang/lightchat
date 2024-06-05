@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.springframework.plugin:spring-plugin-metadata:1.2.0.RELEASE">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../tool/IntelliJ IDEA 2021.3.1/maven/apache-maven-3.8.1/resposibility/org/springframework/plugin/spring-plugin-metadata/1.2.0.RELEASE/spring-plugin-metadata-1.2.0.RELEASE.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../../tool/IntelliJ IDEA 2021.3.1/maven/apache-maven-3.8.1/resposibility/org/springframework/plugin/spring-plugin-metadata/1.2.0.RELEASE/spring-plugin-metadata-1.2.0.RELEASE-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../../tool/IntelliJ IDEA 2021.3.1/maven/apache-maven-3.8.1/resposibility/org/springframework/plugin/spring-plugin-metadata/1.2.0.RELEASE/spring-plugin-metadata-1.2.0.RELEASE-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

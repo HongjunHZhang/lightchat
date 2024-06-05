@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhj.mapper.SpaceCountMapper">
+
+    <select id="getUserNickName" parameterType="Integer" resultType="String">
+        select  * from (select user_count from spcae_count where space_count = #{spaceCount}) a left join  user_count b on a.user_count = b.user_count
+    </select>
+
+</mapper>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhj.mapper.GroupCountMapper">
+    <update id="addPeople" parameterType="String">
+        update group_count set people_num = people_num + 1 where group_count = #{groupCount}
+    </update>
+
+
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhj.mapper.SpaceValueMapper">
+
+    <select id="getThumbInfo" parameterType="Integer" resultType="Map">
+        select a.userCount C,b.nick_name V from (select send_id userCount from space_value where type = '1' and associated_id = #{associatedId})
+        a left join user_count b on a.userCount = b.user_count
+    </select>
+
+    <select id="getPrivateTalk" parameterType="Integer" resultType="com.zhj.entity.SpaceValue">
+        select a.*,b.nick_name nickName,b.photo from(select id,associated_id associatedId,value_info valueInfo,create_time createTime,send_id sendId from
+        space_value where associated_id = #{associatedId} and type = '2') a left join user_count b on a.sendId = b.user_count
+    </select>
+
+    <select id="getPhotoInfo" parameterType="Integer" resultType="String">
+        select value_info valueInfo from
+            space_value where associated_id = #{associatedId} and type = '0'
+    </select>
+
+</mapper>

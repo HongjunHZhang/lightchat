@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhj.mapper.AdduserMapper">
+
+    <select id="getDefaultUserInfo" parameterType="String" resultType="com.zhj.entity.ret.RetAddUser">
+        select user_count userCount,nick_name nickName,photo,simple_info simpleInfo from user_count
+        where user_count not in (select user_id userId from friend where friend_id = #{userId} union
+        select friend_id userId from friend where user_id = #{userId} )
+        order by id limit 20
+    </select>
+
+    <select id="getInfoByNickNameOrCount" parameterType="String" resultType="com.zhj.entity.ret.RetAddUser">
+        select user_count userCount,nick_name nickName,photo,simple_info simpleInfo from user_count
+        where user_count = #{param} union  select user_count userCount,nick_name nickName,photo,simple_info simpleInfo from user_count where nick_name like concat(#{param},'%')
+         limit 20
+    </select>
+
+    <select id="getDefaultGroupInfo" parameterType="String" resultType="com.zhj.entity.ret.RetAddGroup">
+        select * from (select group_count groupCount,group_Name groupName,photo,simple_info simpleInfo,max_num maxNum,people_num peopleNum,enter_role enterRole from group_count
+        where group_count not in (select group_count groupCount from group_member where user_count = #{userId} )
+        order by id limit 20) ret limit 20
+    </select>
+
+    <select id="getGroupByNickNameOrCount" parameterType="String" resultType="com.zhj.entity.ret.RetAddGroup">
+        select * from (select group_count groupCount,group_name groupName,photo,simple_info simpleInfo,max_num maxNum,people_num peopleNum,enter_role enterRole from group_count
+        where group_count = #{param} union  select group_count groupCount,group_name groupName,photo,simple_info simpleInfo,max_num maxNum,people_num peopleNum,enter_role enterRole
+        from group_count where group_name like concat(#{param},'%')
+            limit 20) ret limit 20
+    </select>
+
+    <select id="getFriend" parameterType="com.zhj.entity.UserCount" resultType="com.zhj.entity.Friend">
+        select * from friend where (user_id = #{userId} and friend_id = #{friendId})
+    </select>
+
+    <select id="enterGroupInfo" parameterType="com.zhj.entity.UserCount" resultType="Long">
+        select count(*) from group_member where  group_count = #{groupId} and user_count = #{userId}
+    </select>
+
+</mapper>

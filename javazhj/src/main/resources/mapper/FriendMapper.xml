@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhj.mapper.FriendMapper">
+
+    <update id="setRelationShip" parameterType="String">
+    update friend set ship = #{status} where id in( select * from (select id from friend where user_id = #{userCount}
+    and friend_id = #{friendCount} union select id from friend where friend_id = #{userCount} and user_id = #{friendCount}) b)
+    </update>
+
+    <delete id="deleteFriend" parameterType="String">
+        delete from friend where id in(select * from (select id from friend where user_id = #{userCount}
+         and friend_id = #{friendCount} and ship_type = #{shipType} union select id from friend where friend_id = #{userCount} and user_id = #{friendCount}
+         and ship_type = #{shipType} ) b)
+     </delete>
+
+    <select id="getFriendSpaceCount" parameterType="String" resultType="String">
+   select b.id from (select friend_id userCount from friend where user_id = #{userCount} and friend_id !=  #{userCount}) a left join space_count b
+   on a.userCount = b.user_count
+
+    </select>
+
+    <select id="getFriendOtherMine" resultType="com.zhj.entity.Friend">
+    select id,user_id userId,friend_id friendId,create_time createTime,ship,ship_type shipType,last_read_time lastReadTime
+    from friend where user_id &lt;&gt; friend_id
+    </select>
+
+    <select id="getFriendSpaceCountInfo" parameterType="String" resultType="com.zhj.entity.SpaceCount">
+        select b.* from (select user_id userCount from friend where friend_id = #{userCount} and user_id != #{userCount} )
+            a left join space_count b on a.userCount = b.user_count
+    </select>
+
+
+</mapper>

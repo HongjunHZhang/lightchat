@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="bs_zhj@localhost" uuid="92abb429-4102-4a17-972a-8dae0289e1af">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/bs_zhj?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=GMT%2b8&amp;useSSL=false</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="bs_zhj@rm-2vcvw2m5v78k9y7wmmo.mysql.cn-chengdu.rds.aliyuncs.com" uuid="0af18708-60ee-4a25-9805-46b351fb7e54">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://rm-2vcvw2m5v78k9y7wmmo.mysql.cn-chengdu.rds.aliyuncs.com/bs_zhj</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+  </component>
+</project>

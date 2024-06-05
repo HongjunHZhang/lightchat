@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhj.mapper.VisitorsMapper">
+    <resultMap id="resultMap" type="com.zhj.entity.Visitors">
+        <id property="id" column="id"/>
+        <id property="visitorsId" column="visitors_id"/>
+        <id property="bevisitorsId" column="bevisitors_id"/>
+        <id property="createTime" column="create_time"/>
+    </resultMap>
+
+    <select id="getCurrentVisitors" parameterType="String" resultType="com.zhj.entity.UserCount">
+        SELECT
+            b.user_count userCount,
+            b.nick_name nickName,
+            b.photo photo
+        FROM
+            ( select * from (
+                                select a.* , IF(@param=visitors_Id,@rank:=@rank+1,@rank:=1) rankk,@param:=visitors_Id,@rownum:=@rownum+1 rownum from
+                                    (SELECT * from visitors where bevisitors_id = #{userCount}
+                                    order by visitors_Id,create_time desc) a , (select @rank:=0,@param:=null,@rownum:=0)  m
+                            )result where result.rankk = 1 ORDER BY result.create_time desc limit 9 ) q
+                LEFT JOIN user_count b ON q.visitors_Id = b.user_count
+    </select>
+
+</mapper>

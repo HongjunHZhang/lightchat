@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: io.jsonwebtoken:jjwt:0.9.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../tool/IntelliJ IDEA 2021.3.1/maven/apache-maven-3.8.1/resposibility/io/jsonwebtoken/jjwt/0.9.1/jjwt-0.9.1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../../tool/IntelliJ IDEA 2021.3.1/maven/apache-maven-3.8.1/resposibility/io/jsonwebtoken/jjwt/0.9.1/jjwt-0.9.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../../tool/IntelliJ IDEA 2021.3.1/maven/apache-maven-3.8.1/resposibility/io/jsonwebtoken/jjwt/0.9.1/jjwt-0.9.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

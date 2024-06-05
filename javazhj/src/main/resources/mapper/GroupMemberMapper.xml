@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhj.mapper.GroupMemberMapper">
+    <resultMap id="resultMap" type="com.zhj.entity.ret.RetGroupMember">
+        <id property="id" column="id"/>
+        <id property="userCount" column="user_count"/>
+        <id property="online" column="online"/>
+        <id property="createTime" column="create_time"/>
+        <id property="nickName" column="nick_name"/>
+        <id property="groupCount" column="group_count"/>
+        <id property="userLevel" column="user_level"/>
+        <id property="photoSrc" column="photo_src"/>
+    </resultMap>
+
+
+    <select id="getMember" parameterType="String" resultMap="resultMap">
+        select a.id,a.user_count,a.user_level,a.create_time,b.nick_name,b.photo photo_src,b.online  from (select * from group_member where group_count = #{groupCount})
+            a left join user_count b on a.user_count = b.user_count order by a.user_level asc,b.online desc
+            </select>
+
+
+</mapper>

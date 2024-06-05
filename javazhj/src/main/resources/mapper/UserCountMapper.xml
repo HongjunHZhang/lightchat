@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhj.mapper.UserCountMapper">
+    <resultMap id="resultMap" type="com.zhj.entity.UserCount">
+        <id property="id" column="id"/>
+        <id property="userCount" column="user_count"/>
+        <id property="password" column="password"/>
+        <id property="spaceId" column="space_id"/>
+        <id property="isValid" column="is_valid"/>
+        <id property="status" column="status"/>
+        <id property="rootLevel" column="root_level"/>
+        <id property="safeLevel" column="safe_level"/>
+        <id property="online" column="online"/>
+        <id property="createTime" column="create_time"/>
+        <id property="nickName" column="nick_name"/>
+        <id property="photo" column="photo"/>
+        <id property="sign" column="sign"/>
+        <id property="age" column="age"/>
+        <id property="birthday" column="birthday"/>
+        <id property="constellation" column="constellation"/>
+        <id property="phone" column="phone"/>
+        <id property="email" column="email"/>
+        <id property="open" column="open"/>
+        <id property="school" column="school"/>
+        <id property="address" column="address"/>
+        <id property="thumbs" column="thumbs"/>
+        <id property="status" column="status"/>
+        <id property="sex" column="sex"/>
+        <id property="simpleInfo" column="simple_info"/>
+        <id property="habit" column="habit"/>
+        <id property="isDefaultPhoto" column="is_default_photo"/>
+        <id property="company" column="company"/>
+    </resultMap>
+
+  <select id="getLoginInfo" parameterType="com.zhj.entity.UserCount" resultMap="resultMap">
+      select user_count,online,safe_level,status,root_level,nick_name,is_valid,photo from user_count where user_count = #{userCount} and
+          password = #{password} and is_valid = "1"
+  </select>
+
+    <select id="getFriend" parameterType="String" resultType="com.zhj.entity.ret.UserType">
+      select distinct * from (
+        select friend_id userCount,ship_type shipType,ship from friend where user_id = #{userCount}) ret
+    </select>
+
+    <select id="getGroup" parameterType="String" resultType="com.zhj.entity.ret.UserType">
+        select group_count userCount,user_level shipType from group_member where  user_count = #{userCount}
+    </select>
+
+    <update id="online" parameterType="String">
+        update user_count set online = '1' where user_count = #{userCount}
+    </update>
+    <update id="outline" parameterType="String">
+        update user_count set online = '0' where user_count = #{userCount}
+    </update>
+
+    <update id="outlineList" parameterType="String">
+        update user_count set online = '0' where user_count in
+         <foreach collection="userCountList" item="item" separator="," open="(" close=")">
+           #{item}
+         </foreach>
+    </update>
+
+    <update id="onlineList" parameterType="String">
+        update user_count set online = '1' where user_count in
+        <foreach collection="userCountList" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <update id="updateSpaceById" parameterType="Integer">
+        update user_count set space_id = #{space_id} where id = #{id}
+    </update>
+
+    <update id="updatePasswordByUserCount" parameterType="String">
+        update user_count set password = #{password} where user_count = #{userCount}
+    </update>
+
+    <update id="resetAllPassword" parameterType="String">
+        update user_count set password = #{password} where '1' = '1'
+    </update>
+
+    <update id="updateEmailByUserCount" parameterType="String">
+        update user_count set email = #{email} where user_count = #{userCount}
+    </update>
+
+    <select id="getOnlineUser"  resultType="String">
+        select user_count from user_count where  online = '1'
+    </select>
+
+
+
+
+
+
+
+
+</mapper>

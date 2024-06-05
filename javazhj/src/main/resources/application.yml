@@ -1,0 +1,70 @@
+server:
+  port: 8899
+  #ssl:
+   # key-store: classpath:ssl.pfx
+    #key-store-password: tGcdxo0N #解压后.txt中的秘钥
+spring:
+  servlet:
+    multipart:
+      max-file-size: 2000MB
+      max-request-size: 2000MB
+  redis:
+    host: 192.168.10.91
+#    host: 106.52.23.242
+    port: 6379
+    password: zhj5201314
+    timeout: 3000
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1ms
+        min-idle: 0
+        max-idle: 8
+  datasource:
+    db:
+#      jdbc-url: jdbc:mysql://rm-2vcvw2m5v78k9y7wmmo.mysql.cn-chengdu.rds.aliyuncs.com/bs_zhj
+      jdbc-url: jdbc:mysql://192.168.10.91:3306/light_chat
+      username: root
+      password: zhj5201314
+      driver-class-name: com.mysql.cj.jdbc.Driver
+#      jdbc-url: jdbc:mysql://zhjgg.cn:3306/light_chat
+#      username: rootzhj
+#      password: Rootzhj123
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+#    db2:
+#      jdbc-url: jdbc:mysql://localhost:3306/bs_zhj?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2b8&useSSL=false
+#      username: root
+#      password: zhj5201314
+#      driver-class-name: com.mysql.cj.jdbc.Driver 本地
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  type-aliases-package: classpath*:\\mapper\*.xml
+logging:
+  level:
+    com.zhj.mapper: debug
+    org.apache.kafka.clients.NetworkClient: error
+    org.apache.kafka.common.errors.DisconnectException: error
+default:
+  photoSrc: http://192.168.10.91:8872/admin/userphoto/userphoto  #代理服务器
+  userPhoto: http://192.168.10.91:8872/user
+  groupPhoto: http://192.168.10.91:8872/group
+  musicSrc: http://192.168.10.91:8872/music
+  rootUserFile: /home/zhj/file/user
+  rootGroupFile: /home/zhj/file/group
+  rootMusicFile: /home/zhj/file/music
+  rootFilePath: /home/zhj/file
+  rootUrlPath: http://192.168.10.91:8872
+#  serveAddress: D:\\zhj\\test
+  #serveAddress: http://localhost:8899/lightChat/serve/addFileByName
+  serveAddress: http://192.168.10.91:8899/lightChat/serve/
+  serveLocation: local
+  kafkaPath: 192.168.10.91:9092
+
+lc-token:
+  header: authorization
+
+
+

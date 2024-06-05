@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhj.mapper.FriendMsgMapper">
+    <resultMap id="resultMap" type="com.zhj.entity.FriendMsg">
+        <id property="id" column="id"/>
+        <id property="receiveId" column="receive_Id"/>
+        <id property="sendNickName" column="send_nick_name"/>
+        <id property="receiveNickName" column="receive_nick_name"/>
+        <id property="createTime" column="create_time"/>
+        <id property="msg" column="msg"/>
+        <id property="countType" column="count_type"/>
+        <id property="isValid" column="is_valid"/>
+        <id property="countPhoto" column="count_photo"/>
+        <id property="type" column="type"/>
+        <id property="fileName" column="file_name"/>
+        <id property="type" column="type"/>
+    </resultMap>
+
+    <resultMap id="resultCurrentMap" type="com.zhj.entity.ret.FriendMsgCurrent">
+        <id property="id" column="id"/>
+        <id property="receiveId" column="receive_Id"/>
+        <id property="sendNickName" column="send_nick_name"/>
+        <id property="groupId" column="group_id"/>
+        <id property="receiveNickName" column="receive_nick_name"/>
+        <id property="createTime" column="create_time"/>
+        <id property="msg" column="msg"/>
+        <id property="countType" column="count_type"/>
+        <id property="isValid" column="is_valid"/>
+        <id property="countPhoto" column="count_photo"/>
+        <id property="type" column="type"/>
+        <id property="fileName" column="file_name"/>
+        <id property="type" column="type"/>
+        <id property="unRead" column="un_read"/>
+    </resultMap>
+
+
+<!--    <select id="getFriendMsgUnion" parameterType="String" resultMap="resultMap">-->
+<!--    select a.id,a.count_type,a.send_Id,a.receive_Id,a.create_time,a.msg,b.photo count_photo,b.nick_name send_nick_name,a.type,a.file_name from (select * from Friend_Msg where send_Id = #{userCount} and receive_Id = #{friendCount} and is_valid = '1' union-->
+<!--    select * from Friend_Msg where send_Id = #{friendCount} and receive_Id = #{userCount} and is_valid = '1') a left join user_count-->
+<!--    b on a.send_id = b.user_count-->
+<!--    order by create_time desc-->
+<!--    </select>-->
+
+    <select id="getFriendMsg" parameterType="String" resultMap="resultMap">
+    select * from friend_msg where count_identify = #{countIdentify} and is_valid = '1'
+    order by create_time desc
+    </select>
+
+    <update id="signRead" parameterType="String">
+        update friend set last_read_time = #{lastReadTime} where user_id = #{userCount} and friend_id = #{friendCount}
+    </update>
+
+    <select id="getMainMsg" parameterType="String" resultMap="resultCurrentMap">
+        SELECT send_Id,receive_id ,msg,send_nick_name ,count_photo ,user_count ,create_time,type
+        from (select send_id,receive_id,msg,create_time,type from (
+        select a.* , IF(@param=send_id,@rank:=@rank+1,@rank:=1) rankk,@param:=send_id,@rownum:=@rownum+1 rownum from(
+        select * from
+        (select receive_id send_Id,send_id receive_id,create_time,msg,type from friend_msg where send_id = #{userCount} union
+         select send_Id send_Id,send_Id receive_id , create_time,msg,type from friend_msg where receive_id = #{userCount}) c
+         order by send_id,create_time desc) a , (select @rank:=0,@param:=null,@rownum:=0) b
+        )result where result.rankk = 1) m left join (select nick_name send_nick_name,photo
+         count_photo ,user_count from user_count) n on m.send_Id = n.user_count
+    </select>
+
+    <select id="getMainGroupMsg" parameterType="String" resultMap="resultCurrentMap">
+        select c.*,d.send_nick_name,d.photo count_photo from(SELECT id,group_id,send_id send_id , create_time,msg,type from group_msg where id in
+        (select max(id) from (select id,group_id from group_msg where group_id in (select group_count from group_member where user_count = #{userCount} ))m GROUP BY m.group_id))
+        c left join (select group_name send_nick_name,photo ,group_count from group_count) d on c.group_id = d.group_count
+    </select>
+
+    <select id="getUnReadFriendMsg" parameterType="String" resultType="Integer">
+      select count(*) from friend_msg where send_id = #{friendCount} and receive_Id = #{userCount} and create_time > (
+    select max(last_read_time) from friend where user_id = #{userCount} and friend_id = #{friendCount})
+    </select>
+
+</mapper>

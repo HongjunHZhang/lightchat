@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: jaxen:jaxen:1.2.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../tool/IntelliJ IDEA 2021.3.1/maven/apache-maven-3.8.1/resposibility/jaxen/jaxen/1.2.0/jaxen-1.2.0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../../tool/IntelliJ IDEA 2021.3.1/maven/apache-maven-3.8.1/resposibility/jaxen/jaxen/1.2.0/jaxen-1.2.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../../tool/IntelliJ IDEA 2021.3.1/maven/apache-maven-3.8.1/resposibility/jaxen/jaxen/1.2.0/jaxen-1.2.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

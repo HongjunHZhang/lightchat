@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhj.mapper.FriendMsgTempMapper">
+    <select id="getNewRecord" parameterType="String" resultType="com.zhj.entity.FriendMsgTemp">
+        select  id id ,send_id sendId,receive_id receiveId,send_nick_name sendNickName,create_time createTime,msg msg,
+        count_type  countType,is_valid isValid,count_photo countPhoto,`type` `type`,file_name fileName,
+        un_read unRead from friend_msg_temp where (receive_id = #{receiveId} and un_read > 0)  or  (send_Id = #{receiveId} and mine_un_read = '1')
+    </select>
+
+    <select id="getMineSendRecord" parameterType="String" resultType="com.zhj.entity.FriendMsgTemp">
+        select  id id ,receive_id sendId,receive_nick_name sendNickName,create_time createTime,msg msg,
+                count_type  countType,is_valid isValid,receive_count_photo countPhoto,`type` `type`,file_name fileName,
+                0 unRead from friend_msg_temp where send_id = #{sendId} and receive_id != #{sendId} and create_time > #{createTime}
+    </select>
+
+<!--    <select id="searchRecordByTwoCount" parameterType="com.zhj.entity.FriendMsg" resultType="integer">-->
+<!--      select count(*) from friend_msg_temp where (send_id = #{sendId} and receive_id = #{receiveId})-->
+<!--      or (send_id = #{receiveId} and receive_id = #{sendId})-->
+<!--    </select>-->
+
+        <select id="searchRecordByTwoCount" parameterType="com.zhj.entity.FriendMsg" resultType="integer">
+          select count(*) from friend_msg_temp where (send_id = #{sendId} and receive_id = #{receiveId})
+          or (send_id = #{receiveId} and receive_id = #{sendId})
+        </select>
+
+    <update id="saveMsg" parameterType="com.zhj.entity.FriendMsgTemp">
+      update friend_msg_temp set send_nick_name = #{sendNickName},create_time = #{createTime},msg = #{msg},
+      could_receive = #{countType},is_valid = #{isValid},count_photo = #{countPhoto},type = #{type},file_name = #{fileName},
+      un_read = un_read + 1 where send_id = #{sendId} and receive_id = #{receiveId}
+    </update>
+
+    <update id="changeRecord" parameterType="com.zhj.entity.FriendMsgTemp">
+        update friend_msg_temp set un_read = un_read + 1,send_id = #{sendId},receive_id = #{receiveId},
+        send_nick_name = #{sendNickName},receive_nick_name = #{receiveNickName},create_time = #{createTime},
+        msg = #{msg},count_type = #{countType},is_valid = #{isValid},count_photo = #{countPhoto},
+        `type` = #{type},file_name = #{fileName},count_identify = #{countIdentify},receive_count_photo = #{receiveCountPhoto},mine_un_read = #{mineUnRead}
+        where send_id = #{sendId} and receive_id = #{receiveId}
+    </update>
+
+    <update id="signReadOfFriend" parameterType="com.zhj.entity.FriendMsgTemp">
+        update friend_msg_temp set un_read = 1,mine_un_read = '1',send_id = #{sendId},receive_id = #{receiveId},
+        send_nick_name = #{sendNickName},receive_nick_name = #{receiveNickName},create_time = #{createTime},
+        msg = #{msg},count_type = #{countType},is_valid = #{isValid},count_photo = #{countPhoto},
+        `type` = #{type},file_name = #{fileName}
+        where send_id = #{receiveId} and receive_id = #{sendId}
+    </update>
+
+    <update id="signRead" parameterType="integer">
+      update friend_msg_temp set un_read = 0 where id in
+      <foreach collection="idList" open="(" close=")" separator="," item="item">
+          #{item}
+      </foreach>
+
+    </update>
+    <update id="signReadByUser" parameterType="String">
+      update friend_msg_temp set un_read = 0 where receive_id = #{userCount}
+    </update>
+
+    <update id="signReadByUserOfMine" parameterType="String">
+        update friend_msg_temp set mine_un_read = '0' where send_id = #{userCount}
+    </update>
+
+</mapper>

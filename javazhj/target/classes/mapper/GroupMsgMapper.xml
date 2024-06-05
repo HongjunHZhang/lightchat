@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhj.mapper.GroupMsgMapper">
+    <resultMap id="resultMap" type="com.zhj.entity.ret.RetGroup">
+        <id property="id" column="id"/>
+        <id property="sendId" column="send_id"/>
+        <id property="receiveId" column="receive_id"/>
+        <id property="msg" column="msg"/>
+        <id property="createTime" column="create_time"/>
+        <id property="countType" column="count_type"/>
+        <id property="isValid" column="is_valid"/>
+        <id property="groupId" column="group_id"/>
+        <id property="sendNickName" column="sendNickName"/>
+        <id property="countPhoto" column="countPhoto"/>
+        <id property="fileName" column="file_name"/>
+    </resultMap>
+
+    <select id="getGroupMsg" resultMap="resultMap">
+       select * from group_msg where group_id = #{groupCount} and is_valid = '1' order by create_time desc
+    </select>
+
+    <update id="signRead" parameterType="String">
+        update group_member set last_read_time = #{lastReadTime} where user_count = #{userCount} and group_count = #{groupCount}
+    </update>
+
+    <select id="getGroupMsgByDay" resultMap="resultMap">
+        select * from  (select * from group_msg where group_id = #{groupCount} and is_valid = '1' and create_Time > ${createTime}) a left join (select user_count
+        ,nick_name sendNickName,photo countPhoto from user_count ) b on a.send_id = b.user_count order by a.create_time desc
+    </select>
+    <select id="getGroupPhoto" resultMap="resultMap">
+       select * from  (select * from group_msg where group_id = #{groupCount} and is_valid = '1' and type = '2') a left join (select user_count
+           ,nick_name sendNickName,photo countPhoto from user_count ) b on a.send_id = b.user_count order by a.create_time desc
+    </select>
+    <select id="getUnReadFriendMsg" parameterType="String" resultType="Integer">
+        select count(*) from group_msg where group_id = #{groupCount} and create_time > (
+            select last_read_time from group_member where group_count = #{groupCount} and user_count = #{userCount})
+    </select>
+
+</mapper>

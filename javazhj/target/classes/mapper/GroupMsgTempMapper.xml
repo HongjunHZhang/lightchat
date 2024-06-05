@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhj.mapper.GroupMsgTempMapper">
+
+
+    <select id="getNewMsg" parameterType="String" resultType="com.zhj.entity.FriendMsgTemp">
+        select  group_id sendId,send_nick_name sendNickName,create_time createTime,msg msg,
+            count_type  countType,is_valid isValid,group_photo countPhoto,`type` `type`,file_name fileName,group_name groupName,
+            un_read unRead from group_msg_temp where create_time > #{createTime} and group_id in
+            <foreach collection="groupList" item="item" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+    </select>
+
+</mapper>
